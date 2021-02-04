@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Task-5 - Task-5 Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Task-5";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Task-5 Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href=".">Task-5</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#task-5-documentation">Task 5 Documentation</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#intoduction">Intoduction:</a></li>
+        
+            <li><a class="toctree-l3" href="#task-5-video-link">Task-5 Video link:</a></li>
+        
+            <li><a class="toctree-l3" href="#implementation">Implementation</a></li>
+        
+            <li><a class="toctree-l3" href="#description-of-message-files-yaml-files-config-files">Description of message files, YAML files, Config files</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Task-5 Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Task-5</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="task-5-documentation">Task 5 Documentation</h1>
+<h2 id="intoduction">Intoduction:</h2>
+<p>The objective of this task is to implement a Warehouse Management System to sort packages based on incoming customer orders from different cities. To achieve this we had done the  following things:</p>
+<p>1.)Identied the colour of  12 packages, on shelf using Camera#1. Using QR decoding and the updated the Inventory management spreadsheet of the wharehouse using ROS-IOT BRIDGE </p>
+<p>2.)Then to recieve the incomming orders published on topic "/eyrc/vb/JaiMataD/orders" we used our ros iot bridge and subscribed to it for getting orders</p>
+<p>3.) After recieving orders ur5_1 arm picks the desired package from the shelf according to ine incoming order ie (medcines food or clothes) and place it on the conveyor belt</p>
+<p>4.) After placing the box on conveyor the orders dispatched sheet in the IMS spreadsheet is updated via ros-iot-bridge and an email alert regarding dispatched order is send to the desired email id (usig g-script)</p>
+<p>5.) While dispatching a costuom message is published bt node_t5_ur5_1 which contains the detected color and othe details of the package dispatched </p>
+<p>6.) When package reaches ur5_2 arm it is detected by the logical camera 2 and the sorted into different colored bins by the ur5_2 arm with the help or color message that was published by ur5_1 node </p>
+<p>7.) When pkg is dropped in the sorting bin the order shipped sheet of IMS spreadsheet is updated and another email alert is sent to the desired email id regarding shipped item </p>
+<hr />
+<h2 id="task-5-video-link">Task-5 Video link:</h2>
+<p><p>To watch simulation of task 5  <a href="https://youtu.be/jDszjn32Z4k" title="Task-5 Video">
+click here</a>.</p></p>
+<hr />
+<h2 id="implementation">Implementation</h2>
+<p>To implement this task we have created  2 nodes ( node_t5_ur5_1 and node_t5_ur5_2 ) to control both the ur5 arms seperately and  another pkg ie Ros-Iot-Bridge to handle all commumication between ros and iot server and spread sheets </p>
+<h3 id="pkg_task5">pkg_task5:</h3>
+<p>This is the main package for task 5 which contains all scripts, launch file , config files and saved bag files required for this task.</p>
+<h4 id="scripts">SCRIPTS:</h4>
+<p>There are 2 scripts node_t5_ur5_1.py and node_t5_ur5_2.py for different ur5 arms</p>
+<h5 id="node_t5_ur5_1py">node_t5_ur5_1.py:</h5>
+<p>this node controls ur5_1 arm which is near thhe shelf and is  used to pic and place boxes from shelf on to the conveyor belt 
+in this node first we have subscribed to the 2d camera which gives the imaage feed of the shelf . using pyzbar , cv2 library we have detected all 12 pkgs on shelf with their colors and stored the data in list (cotaining list of color , and position on shelf )
+then we have seperated all the differnt color pkgs in different lists and while doing so we have also updated our inventory managemant spreadsheet  usnng ros iot bridge 
+after which we have subscribed for the incomming messages,  when the message is recieved it is published in the incomming orders spread sheet and the ur5_1 starts moving to pick and place the box 
+once the box is placed on the conveyor the dispatched order spread sheet is updated via ros--iot-bridge and email notification is sent to user and the color of the box along with other order details is published on a costom topic which will be subscribed bt the node_t5_ur5_2 for sorting the pkg </p>
+<p>if multiple orders are comming at same time then the orders are processed in the order of priority  ie meds  first then food and then clothes 
+this is attained by sorting the incommngi order based on order is as the order id for differnt priority orders is differnt </p>
+<h5 id="class-methods-and-functions">Class methods and functions:</h5>
+<p>This script is used to control ur5_1 arm and read incoming orders and process them according to the inventory and control 2D cam which detects all the packages in the shelf with their colour and relative position in the shelf.</p>
+<p>Following are the functions defined in script and their description:</p>
+<pre><code>1- conveyer_state_callback:
+This function is used to check conveyer state and  used by callback function.
+
+2-callback_logical_cam_1:
+This is logical camera 1 callback function and used to check available package under camera.
+
+3- conveyer:
+This is used to start/stop the conveyer.
+
+4- clear_octomap:
+This function clears octomap of sensors docstrings and does nothing really.
+
+5-set_joint_angles:
+This function is used to set joint angles.
+
+6- hard_set_joint_angles:
+This function is used to forcefully set joint angles.
+
+7- get_qr_data:
+This function is used to decode QR code present on boxes.
+
+8- moveit_play_planned_path_from_file:
+It is used to play trajectory saved in yaml file.
+
+9-moveit_hard_play_planned_path_from_file:
+This function is used to forcefully play path from yaml file.
+
+10-image_conversion:
+This function is used to convert incoming image messages to cv2 images and take threshold to detect all packages.
+
+11- attach_box:
+This function is used to attach box to ur5 arm in  gazebo as well as in rviz.
+
+12- detach_box:
+This function is used to detach box frim ur5 arm in gazebo as well as rviz.
+
+13-send_goal_iot:
+This function is used to publish message on MQTT topic.
+
+14- on_transition:
+This function is used by send goal iot as callback.
+
+15-callback_orders:
+This function is used to receive incoming orders and publish them in spread sheet using ros_iot_bridge.
+
+16-proceed:
+This function is used for pick place action for dispatching orders.
+
+17-get_time_str:
+This function is used to get dispatch time in string format.
+
+18-_del_:
+This function is used to delete class object.
+
+19-main:
+This is the main function. It first captures image from 2D camera and gets all packages on shelf and push all packages on IMS spreadsheet and used to process incoming orders.
+</code></pre>
+<h5 id="node_t5_ur5_2">node_t5_ur5_2 :</h5>
+<p>this node is used to control the ur5_2 arm and sort the pkgs into correct color bin 
+this is achieved by subscrbing to the logical camera 2 which detets the incomming pkg on the coneyor and when pkg reaches certain position under the cam  the cnveyr belt is stopped and the box is attached to the arm and by subscribing to the custom topic published in node_t5_ur5_1 containing color and other details the package is sorted into sorting bins 
+when the pkg is dropped in the bin  the order shipped sheet  of IMS spreadsheet is updated and another email notificaton is sent to the user regarding shipped order 
+using ros-iot-bridge</p>
+<h4 id="class-methods-and-functions_1">Class methods and functions:</h4>
+<p>This script is used to control ur5_2 arm and sort all the packages dispatched by ur5_1 arm using the color published  by ur5_1 node  while dispatching the package. It also, with the help of logical camera 2, detects the package and stopping the conveyer so that the ur5_2 arm can reach the package and sort it in corresponding bins.</p>
+<p>Following are the functions defined in script and their description:</p>
+<pre><code>1- conveyer_state_callback:
+This function is used to check conveyer state and  used by callback function.
+
+2-callback_color:
+This function is used to save incoming color messages published by ur5_1 node whilw dispatching the order/packages.
+
+3-callback_logical_cam_2:
+This function is used to check available packages under camera and to sort available packages according to the incoming orders.
+
+4-clear_octomap:
+This function is used just to clear the octomap of sensors docstrings.
+
+5- conveyer:
+This function is used to start/stop the conveyor.
+
+6-attach_box:
+This function is used to attach box to ur5 arm in gazebo as well as rviz.
+
+7- detach_box:
+This function is used to detach box from ur5 arm in gazebo as well as rviz.
+
+8-set joint angles:
+This function is used to set joint angles.
+
+9- hard_set joint angles:
+This function is used to forcefully set joint angles.
+
+10- moveit_play_planned_path_from_file:
+It is used to play trajectory saved in yaml file.
+
+11-moveit_hard_play_planned_path_from_file:
+This function is used to forcefully play path from yaml file.
+
+12-send_goal_iot:
+This function is used to publish message on MQTT topic.
+
+13- on_transition:
+This function is used by send goal iot as callback.
+
+14-get_time_str:
+This function is used to get shipped time in string format.
+
+15-get_Estimated_Delivery_date:
+This function is used to get delivery time in string format.
+
+16-_del_:
+This function is used to delete class object.
+
+17-main:
+This is the main function.  Here, class object is created for ur5_2 arm and logical cam2 subscriber is called.
+</code></pre>
+<h4 id="launch-files">Launch Files:</h4>
+<h5 id="task5_solutionlaunch">task5_solution.launch</h5>
+<p>This launch file that launches all nessary nodes and simulation environment ie gazebo, rviz planning scene and all nessary nodes used to complete this task </p>
+<hr />
+<h3 id="pkg_ros_iot_bridge">pkg_ros_iot_bridge:</h3>
+<p>This package consist a action server node_action_server_ros_iot_bridge.py which accepts Goals from Action Clients. On receiving appropriate Goal the Action Server, is able to push data on spreadsheet
+and is able to subscribe to any MQTT Topic and publish the message from MQTT subscription to a ROS Topic /ros_iot_bridge/mqtt/sub using msgMqttSub.msg message file.</p>
+<p>/eyrc/vb/JaiMataD/orders: this topic is used for listening to incomming orders</p>
+<p>/eyrc/JaiMataD/ros_to_iot : Use this MQTT Topic to publish data from ROS Node. MQTT client should then subscribe to this MQTT topic.</p>
+<p>/eyrc/JaiMataD/iot_to_ros: Use this MQTT Topic to send message from MQTT Client to any ROS Node. MQTT Client should publish on this topic and the node_ros_iot_bridge_action_server.py Action Serverlisten to this MQTT Topic and publish the message coming from this MQTT Topic on the ROS Topic /ros_iot_bridge/mqtt/sub.</p>
+<h4 id="iotpy">iot.py:</h4>
+<p>This python module is used to do all nessary iot tasks such as publishing data on mqtt server and pushing data on spread sheet using http requests.
+it is imported in node_ros_iot_bridge_action_server</p>
+<hr />
+<h2 id="description-of-message-files-yaml-files-config-files">Description of message files, YAML files, Config files</h2>
+<h3 id="pkg_task5_1">pkg_task5 :</h3>
+<h4 id="config-files">config files :</h4>
+<h5 id="rviz-scene">rviz scene:</h5>
+<p>rviz scene files are used to set rviz planning scene and to add different colision objects in the scene to avoid colision ther are 2 differnt files for 2 diifferent arms</p>
+<h5 id="saved-trajectories">saved trajectories:</h5>
+<p>there are saved trajs  yaml files which can be used to play a planned path to avoid colision and save plannng time 
+file is saved for each package ie for pickig and placing the file from shelf to drop position above the conveyor 
+naming: pkgxy_to_drop.yaml where xy is the box number ie (00,01,02, 10,11,12,20,21,22,30,31,32)
+for  some pkgs like pkg31 the traj is in to parts so the file name is pkg31_to_inter.yaml and inter31_to_drop.yaml</p>
+<h4 id="message-files">message files :</h4>
+<h5 id="packagecolormsg">packageColor.msg :</h5>
+<p>This custom messaage file is used to publish list of string on a custom topic this is used for publishing color and other order details of the dispatched order and is used by ur5_2 arm to sort the pkgs according to color that is published via this msg file</p>
+<hr />
+<h3 id="pkg_ros_iot_bridge_1">pkg_ros_iot_bridge:</h3>
+<h4 id="config-files_1">config files:</h4>
+<h5 id="config_pyiotyaml">config_pyiot.yaml:</h5>
+<p>This file is used to store all the nessary topics and protocols that are needed for smooth bridging between ros and iot 
+it is loaded as rosparams and other nodes can use them once loaded</p>
+<h4 id="action-files">action files:</h4>
+<h5 id="msgrosiotaction">msgrosiot.action:</h5>
+<p>This is the messaage file for sction server this contais the goal , result message types for the action server abd client</p>
+<h4 id="msg-files">msg files:</h4>
+<h5 id="msgmqttsubmsg">msgMqttsub.msg:</h5>
+<p>This file is used to publish mqtt messages </p>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2021-02-04 04:39:47
+-->
